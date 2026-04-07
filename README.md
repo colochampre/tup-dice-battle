@@ -6,21 +6,13 @@ Desarrollo de una aplicación web interactiva: juego RPG de combate por turnos b
 
 ## 👥 Miembros del proyecto
 
-* [Tu nombre]
-* [Nombre de tu compañero]
+* Bazzana Alejo
+* Champredonde Juan Martin
 
 ## 🛠️ Gestión del proyecto
 
 * Herramienta: Trello
-* Tablero Kanban: [URL_DEL_TABLERO]
-
-Columnas definidas:
-
-* TODO
-* DOING
-* QA
-* DEPLOY
-* CLOSE
+* Tablero: [trello.com/b/xpv48cPh/dice-battle](https://trello.com/b/xpv48cPh/dice-battle)
 
 ## 🧩 Descripción general del proyecto
 
