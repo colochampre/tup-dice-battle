@@ -30,12 +30,25 @@ El sistema incorpora mecánicas adicionales:
 * **Golpe crítico**: si el atacante obtiene dobles en su tirada.
 * **Contragolpe**: si el defensor obtiene dobles en su tirada.
 
-Al finalizar cada ronda, los jugadores reciben una opción aleatoria de equipamiento (casco, peto, guantes o botas), que otorga mejoras a las estadísticas del personaje.
+Al finalizar cada ronda, los jugadores reciben opciónes aleatorias de equipamiento (arma, peto, guantes y escudo), que otorgan mejoras a las estadísticas del personaje.
 
 Las estadísticas se dividen en:
-
-* **Primarias**: vida máxima, ataque, defensa.
+* **Primarias**: vida máxima, ataque, defensa, precisión.
 * **Secundarias**: regeneración de vida, robo de vida, daño verdadero, multiplicador crítico y multiplicador de contraataque.
+
+Cada tipo de equipamiento tiene una estadiscica asignada:
+* **Arma**: bono de ataque
+* **Peto**: bono de vida máxima
+* **Guantes**: precisión
+* **Escudo**: bono de defensa
+
+El equipamiento tiene niveles de rareza, y otorga mejoras de estadísticas:
+* **Común**: mejora estadísticas primarias
+* **Raro**: otorga una mejora secundaria
+* **Épico**: otorga dos mejoras secundarias
+* **Legendario**: otorga tres mejoras secundarias
+* **Arcano**: tres mejoras secundarias x1.5
+* **Mítico**: tres mejoras secundarias x2.0
 
 El objetivo del juego es reducir los puntos de vida del oponente a cero mediante la combinación de azar (dados) y estrategia (elección de equipamiento y optimización de estadísticas).
 
