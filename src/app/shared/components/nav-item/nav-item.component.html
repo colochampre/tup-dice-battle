@@ -1,0 +1,9 @@
+<a
+  class="nav-item"
+  [routerLink]="route()"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  <mat-icon class="nav-item__icon">{{ icon() }}</mat-icon>
+  <span class="nav-item__label">{{ label() }}</span>
+</a>
