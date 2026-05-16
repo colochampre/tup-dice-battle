@@ -1,1 +1,38 @@
-<section class="players-container"></section>
+<section class="players-container">
+  @if (loading()) {
+    <div class="players-loading">
+      <app-spinner [diameter]="48" />
+    </div>
+  } @else {
+    <div class="players-grid">
+      @for (player of players(); track player.email) {
+        <app-player-card [player]="player" />
+      }
+    </div>
+
+    <div class="players-pagination">
+      <button mat-icon-button [disabled]="currentPage() <= 1" (click)="prevPage()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      @for (page of pageNumbers(); track page) {
+        @if (page === '...') {
+          <span class="players-pagination__ellipsis">...</span>
+        } @else {
+          <button
+            mat-button
+            class="players-pagination__page"
+            [class.players-pagination__page--active]="page === currentPage()"
+            (click)="goToPage(page)"
+          >
+            {{ page }}
+          </button>
+        }
+      }
+
+      <button mat-icon-button [disabled]="currentPage() >= totalPages" (click)="nextPage()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  }
+</section>

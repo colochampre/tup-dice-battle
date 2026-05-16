@@ -1,0 +1,27 @@
+<article class="player-card">
+  <img class="player-card__avatar" [src]="player().picture" [alt]="player().firstName + ' ' + player().lastName" />
+
+  <h3 class="player-card__name">{{ player().firstName }} {{ player().lastName }}</h3>
+
+  <div class="player-card__details">
+    <div class="player-card__row">
+      <mat-icon class="player-card__icon">email</mat-icon>
+      <span class="player-card__text">{{ player().email }}</span>
+    </div>
+
+    <div class="player-card__row">
+      <mat-icon class="player-card__icon">cake</mat-icon>
+      <span class="player-card__text">{{ player().age }}</span>
+    </div>
+
+    <div class="player-card__row">
+      <mat-icon class="player-card__icon">phone</mat-icon>
+      <span class="player-card__text">{{ player().phone }}</span>
+    </div>
+
+    <div class="player-card__row">
+      <mat-icon class="player-card__icon">location_on</mat-icon>
+      <span class="player-card__text">{{ player().country }} - {{ player().state }} - {{ player().city }}</span>
+    </div>
+  </div>
+</article>

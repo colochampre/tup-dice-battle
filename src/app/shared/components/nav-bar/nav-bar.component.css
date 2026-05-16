@@ -15,7 +15,7 @@
 
 @media (min-width: 1200px) {
   .nav-bar {
-    width: 320px;
+    width: 16rem;
     height: 100vh;
     padding: var(--spacing-lg) var(--spacing-sm);
     border-top: none;
