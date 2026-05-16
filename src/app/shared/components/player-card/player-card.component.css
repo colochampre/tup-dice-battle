@@ -60,6 +60,11 @@
   white-space: nowrap;
 }
 
+.player-card__score {
+  font-weight: 600;
+  color: #ffc107;
+}
+
 @media (min-width: 768px) {
   .player-card__avatar {
     width: 96px;

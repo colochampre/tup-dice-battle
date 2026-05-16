@@ -8,6 +8,7 @@ export interface Player {
   country: string;
   state: string;
   city: string;
+  score: number;
 }
 
 export interface RandomUserResponse {

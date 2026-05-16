@@ -23,5 +23,10 @@
       <mat-icon class="player-card__icon">location_on</mat-icon>
       <span class="player-card__text">{{ player().country }} - {{ player().state }} - {{ player().city }}</span>
     </div>
+
+    <div class="player-card__row">
+      <mat-icon class="player-card__icon">star</mat-icon>
+      <span class="player-card__text player-card__score">{{ player().score }}</span>
+    </div>
   </div>
 </article>

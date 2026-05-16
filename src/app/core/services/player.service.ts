@@ -61,6 +61,7 @@ export class PlayerService {
       country: result.location.country,
       state: result.location.state,
       city: result.location.city,
+      score: Math.floor(Math.random() * 9999) + 1,
     };
   }
 }

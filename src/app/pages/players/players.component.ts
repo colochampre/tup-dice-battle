@@ -6,14 +6,31 @@ import { SpinnerComponent } from '../../shared/components/spinner/spinner.compon
 import { ModalComponent, ModalStyle } from '../../shared/components/modal/modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 const PAGE_SIZE = 24;
 const TOTAL_PAGES = 50;
 
+export type SortField = 'firstName' | 'lastName' | 'age' | 'score';
+export type SortDirection = 'asc' | 'desc';
+
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [PlayerCardComponent, SpinnerComponent, ModalComponent, MatButtonModule, MatIconModule],
+  imports: [
+    PlayerCardComponent,
+    SpinnerComponent,
+    ModalComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+  ],
   templateUrl: './players.component.html',
   styleUrl: './players.component.css',
 })
@@ -23,9 +40,41 @@ export class PlayersComponent implements OnInit {
   currentPage = signal(1);
   totalPages = TOTAL_PAGES;
 
+  searchTerm = signal('');
+  sortField = signal<SortField>('firstName');
+  sortDirection = signal<SortDirection>('asc');
+
   showModal = signal(false);
   modalMessage = signal('');
   modalStyle = signal<ModalStyle>('info');
+
+  filteredPlayers = computed(() => {
+    let result = this.players();
+    const term = this.searchTerm().toLowerCase().trim();
+
+    if (term) {
+      result = result.filter(p =>
+        p.firstName.toLowerCase().includes(term) ||
+        p.lastName.toLowerCase().includes(term) ||
+        p.email.toLowerCase().includes(term) ||
+        p.country.toLowerCase().includes(term) ||
+        p.state.toLowerCase().includes(term) ||
+        p.city.toLowerCase().includes(term)
+      );
+    }
+
+    const field = this.sortField();
+    const dir = this.sortDirection() === 'asc' ? 1 : -1;
+
+    return [...result].sort((a, b) => {
+      const valA = a[field];
+      const valB = b[field];
+      if (typeof valA === 'string' && typeof valB === 'string') {
+        return valA.localeCompare(valB) * dir;
+      }
+      return ((valA as number) - (valB as number)) * dir;
+    });
+  });
 
   pageNumbers = computed(() => {
     const current = this.currentPage();

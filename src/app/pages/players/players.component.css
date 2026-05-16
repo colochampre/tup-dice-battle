@@ -6,6 +6,48 @@
   gap: var(--spacing-lg);
 }
 
+.players-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.players-search {
+  width: 100%;
+}
+
+.players-sort {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.players-sort mat-form-field {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .players-toolbar {
+    margin-top: 2rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .players-search {
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .players-sort {
+    flex-shrink: 0;
+  }
+
+  .players-sort mat-form-field {
+    width: 150px;
+    flex: none;
+  }
+}
+
 .players-loading {
   display: flex;
   align-items: center;
