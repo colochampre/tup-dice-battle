@@ -1,1 +1,74 @@
-<section class="players-container"></section>
+<section class="players-container">
+  <div class="players-toolbar">
+    <mat-form-field class="players-search" appearance="outline">
+      <mat-label>Buscar jugadores</mat-label>
+      <input matInput [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Nombre, email, ciudad..." />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="players-sort">
+      <mat-form-field appearance="outline">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [ngModel]="sortField()" (ngModelChange)="sortField.set($event)">
+          <mat-option value="firstName">Nombre</mat-option>
+          <mat-option value="lastName">Apellido</mat-option>
+          <mat-option value="age">Edad</mat-option>
+          <mat-option value="score">Puntaje</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dirección</mat-label>
+        <mat-select [ngModel]="sortDirection()" (ngModelChange)="sortDirection.set($event)">
+          <mat-option value="asc">Ascendente</mat-option>
+          <mat-option value="desc">Descendente</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="players-loading">
+      <app-spinner [diameter]="48" />
+    </div>
+  } @else {
+    <div class="players-grid">
+      @for (player of filteredPlayers(); track player.email) {
+        <app-player-card [player]="player" />
+      }
+    </div>
+
+    <div class="players-pagination">
+      <button mat-icon-button [disabled]="currentPage() <= 1" (click)="prevPage()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      @for (page of pageNumbers(); track page) {
+        @if (page === '...') {
+          <span class="players-pagination__ellipsis">...</span>
+        } @else {
+          <button
+            mat-button
+            class="players-pagination__page"
+            [class.players-pagination__page--active]="page === currentPage()"
+            (click)="goToPage(page)"
+          >
+            {{ page }}
+          </button>
+        }
+      }
+
+      <button mat-icon-button [disabled]="currentPage() >= totalPages" (click)="nextPage()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  }
+
+  @if (showModal()) {
+    <app-modal
+      [style]="modalStyle()"
+      [message]="modalMessage()"
+      (closed)="closeModal()"
+    />
+  }
+</section>
