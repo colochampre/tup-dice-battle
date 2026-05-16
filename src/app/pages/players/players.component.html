@@ -35,4 +35,12 @@
       </button>
     </div>
   }
+
+  @if (showModal()) {
+    <app-modal
+      [style]="modalStyle()"
+      [message]="modalMessage()"
+      (closed)="closeModal()"
+    />
+  }
 </section>

@@ -3,6 +3,7 @@ import { PlayerService } from '../../core/services/player.service';
 import { Player } from '../../core/models/player.model';
 import { PlayerCardComponent } from '../../shared/components/player-card/player-card.component';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { ModalComponent, ModalStyle } from '../../shared/components/modal/modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -12,7 +13,7 @@ const TOTAL_PAGES = 50;
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [PlayerCardComponent, SpinnerComponent, MatButtonModule, MatIconModule],
+  imports: [PlayerCardComponent, SpinnerComponent, ModalComponent, MatButtonModule, MatIconModule],
   templateUrl: './players.component.html',
   styleUrl: './players.component.css',
 })
@@ -21,6 +22,10 @@ export class PlayersComponent implements OnInit {
   loading = signal(false);
   currentPage = signal(1);
   totalPages = TOTAL_PAGES;
+
+  showModal = signal(false);
+  modalMessage = signal('');
+  modalStyle = signal<ModalStyle>('info');
 
   pageNumbers = computed(() => {
     const current = this.currentPage();
@@ -51,10 +56,19 @@ export class PlayersComponent implements OnInit {
 
   loadPage(page: number): void {
     this.loading.set(true);
-    this.playerService.getPlayers(page, PAGE_SIZE).subscribe(players => {
-      this.players.set(players);
-      this.currentPage.set(page);
-      this.loading.set(false);
+    this.playerService.getPlayers(page, PAGE_SIZE).subscribe({
+      next: players => {
+        this.players.set(players);
+        this.currentPage.set(page);
+        this.loading.set(false);
+      },
+      error: err => {
+        console.error('Failed to load players:', err);
+        this.loading.set(false);
+        this.modalStyle.set('danger');
+        this.modalMessage.set('No se pudieron cargar los jugadores. Intenta nuevamente más tarde.');
+        this.showModal.set(true);
+      },
     });
   }
 
@@ -74,5 +88,9 @@ export class PlayersComponent implements OnInit {
     if (typeof page === 'number') {
       this.loadPage(page);
     }
+  }
+
+  closeModal(): void {
+    this.showModal.set(false);
   }
 }
