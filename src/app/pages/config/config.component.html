@@ -1,1 +1,31 @@
-<section class="config-container"></section>
+<section class="config-container">
+  @if (loading()) {
+    <div class="config-loading">
+      <app-spinner [diameter]="48" />
+    </div>
+  } @else {
+    @if (user(); as u) {
+      <article class="config-card">
+        <h2 class="config-card__title">Perfil de usuario</h2>
+        <div class="config-profile">
+          <img class="config-profile__avatar" [src]="u.picture" [alt]="u.firstName + ' ' + u.lastName" />
+          <div class="config-profile__info">
+            <h3 class="config-profile__name">{{ u.firstName }} {{ u.lastName }}</h3>
+            <div class="config-profile__row">
+              <mat-icon>email</mat-icon>
+              <span>{{ u.email }}</span>
+            </div>
+            <div class="config-profile__row">
+              <mat-icon>phone</mat-icon>
+              <span>{{ u.phone }}</span>
+            </div>
+            <div class="config-profile__row">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ u.country }} - {{ u.state }} - {{ u.city }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    }
+  }
+</section>

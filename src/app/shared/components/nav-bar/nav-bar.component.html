@@ -16,6 +16,11 @@
   </div>
 
   <app-nav-item icon="group" label="Jugadores" route="/players" />
+
+  <button class="nav-bar__info-btn" (click)="openAppInfoModal()">
+    <mat-icon class="nav-bar__info-icon">info</mat-icon>
+    <span class="nav-bar__info-label">Acerca de</span>
+  </button>
 </nav>
 
 @if (showLogoutModal()) {
@@ -27,4 +32,15 @@
     (closed)="closeLogoutModal()"
     (confirmed)="confirmLogout()"
   />
+}
+
+@if (showAppInfoModal()) {
+  <div class="app-info-backdrop" (click)="closeAppInfoModal()">
+    <div class="app-info-popup" (click)="$event.stopPropagation()">
+      <button class="app-info-popup__close" (click)="closeAppInfoModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <app-app-info />
+    </div>
+  </div>
 }
