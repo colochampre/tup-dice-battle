@@ -1,5 +1,5 @@
 <div class="modal-backdrop" (click)="onClose()">
-  <div class="modal" [class]="'modal--' + style()" (click)="$event.stopPropagation()">
+  <div class="modal" [class]="'modal--' + variant()" (click)="$event.stopPropagation()">
     <div class="modal__header">
       <mat-icon class="modal__icon">{{ icon }}</mat-icon>
       <button mat-icon-button class="modal__close" (click)="onClose()">
@@ -7,5 +7,11 @@
       </button>
     </div>
     <p class="modal__message">{{ message() }}</p>
+    @if (confirmLabel()) {
+      <div class="modal__actions">
+        <button mat-button (click)="onClose()">{{ cancelLabel() || 'Cancelar' }}</button>
+        <button mat-flat-button color="warn" (click)="onConfirm()">{{ confirmLabel() }}</button>
+      </div>
+    }
   </div>
 </div>

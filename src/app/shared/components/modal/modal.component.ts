@@ -12,9 +12,12 @@ export type ModalStyle = 'info' | 'success' | 'danger';
   styleUrl: './modal.component.css',
 })
 export class ModalComponent {
-  style = input<ModalStyle>('info');
+  variant = input<ModalStyle>('info');
   message = input.required<string>();
+  confirmLabel = input<string>('');
+  cancelLabel = input<string>('');
   closed = output<void>();
+  confirmed = output<void>();
 
   get icon(): string {
     const icons: Record<ModalStyle, string> = {
@@ -22,10 +25,14 @@ export class ModalComponent {
       success: 'check_circle',
       danger: 'error',
     };
-    return icons[this.style()];
+    return icons[this.variant()];
   }
 
   onClose(): void {
     this.closed.emit();
+  }
+
+  onConfirm(): void {
+    this.confirmed.emit();
   }
 }
