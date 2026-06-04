@@ -1,46 +1,4 @@
 <nav class="nav-bar">
-  <div class="nav-bar__avatar-container">
-    <button class="nav-bar__avatar-btn" [matMenuTriggerFor]="avatarMenu">
-      <img class="nav-bar__avatar" [src]="avatarUrl" alt="Avatar" />
-    </button>
-    <mat-menu #avatarMenu="matMenu">
-      <button mat-menu-item (click)="goToConfig()">
-        <mat-icon>settings</mat-icon>
-        <span>Configuración</span>
-      </button>
-      <button mat-menu-item (click)="openLogoutModal()">
-        <mat-icon>logout</mat-icon>
-        <span>Cerrar sesión</span>
-      </button>
-    </mat-menu>
-  </div>
-
   <app-nav-item icon="group" label="Jugadores" route="/players" />
-
-  <button class="nav-bar__info-btn" (click)="openAppInfoModal()">
-    <mat-icon class="nav-bar__info-icon">info</mat-icon>
-    <span class="nav-bar__info-label">Acerca de</span>
-  </button>
+  <app-nav-item icon="settings" label="Configuración" route="/config" />
 </nav>
-
-@if (showLogoutModal()) {
-  <app-modal
-    variant="danger"
-    message="¿Estás seguro de que deseas cerrar sesión?"
-    confirmLabel="Cerrar sesión"
-    cancelLabel="Cancelar"
-    (closed)="closeLogoutModal()"
-    (confirmed)="confirmLogout()"
-  />
-}
-
-@if (showAppInfoModal()) {
-  <div class="app-info-backdrop" (click)="closeAppInfoModal()">
-    <div class="app-info-popup" (click)="$event.stopPropagation()">
-      <button class="app-info-popup__close" (click)="closeAppInfoModal()">
-        <mat-icon>close</mat-icon>
-      </button>
-      <app-app-info />
-    </div>
-  </div>
-}
