@@ -5,7 +5,7 @@
     </div>
   } @else {
     @if (user(); as u) {
-      <article class="config-card">
+      <article id="user-profile" class="config-card">
         <h2 class="config-card__title">Perfil de usuario</h2>
         <div class="config-profile">
           <img class="config-profile__avatar" [src]="u.picture" [alt]="u.firstName + ' ' + u.lastName" />
@@ -26,6 +26,42 @@
           </div>
         </div>
       </article>
+
+      <article class="config-card">
+        <h2 class="config-card__title">Acciones</h2>
+        <div class="config-actions">
+          <button class="config-action-btn config-action-btn--danger" (click)="openLogoutModal()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesión</span>
+          </button>
+          <button class="config-action-btn" (click)="openAppInfoModal()">
+            <mat-icon>info</mat-icon>
+            <span>Acerca de</span>
+          </button>
+        </div>
+      </article>
     }
   }
 </section>
+
+@if (showLogoutModal()) {
+  <app-modal
+    variant="danger"
+    message="¿Estás seguro de que deseas cerrar sesión?"
+    confirmLabel="Cerrar sesión"
+    cancelLabel="Cancelar"
+    (closed)="closeLogoutModal()"
+    (confirmed)="confirmLogout()"
+  />
+}
+
+@if (showAppInfoModal()) {
+  <div class="app-info-backdrop" (click)="closeAppInfoModal()">
+    <div class="app-info-popup" (click)="$event.stopPropagation()">
+      <button class="app-info-popup__close" (click)="closeAppInfoModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <app-app-info />
+    </div>
+  </div>
+}

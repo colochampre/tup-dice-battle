@@ -1,7 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { AppInfoComponent } from '../../shared/components/app-info/app-info.component';
+import { AuthService } from '../../core/services/auth.service';
 
 interface UserProfile {
   firstName: string;
@@ -17,15 +21,17 @@ interface UserProfile {
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [MatIconModule, SpinnerComponent],
+  imports: [MatIconModule, SpinnerComponent, ModalComponent, AppInfoComponent],
   templateUrl: './config.component.html',
   styleUrl: './config.component.css',
 })
 export class ConfigComponent implements OnInit {
   user = signal<UserProfile | null>(null);
   loading = signal(true);
+  showLogoutModal = signal(false);
+  showAppInfoModal = signal(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.http
@@ -49,5 +55,27 @@ export class ConfigComponent implements OnInit {
           this.loading.set(false);
         },
       });
+  }
+
+  openLogoutModal(): void {
+    this.showLogoutModal.set(true);
+  }
+
+  closeLogoutModal(): void {
+    this.showLogoutModal.set(false);
+  }
+
+  confirmLogout(): void {
+    this.showLogoutModal.set(false);
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  openAppInfoModal(): void {
+    this.showAppInfoModal.set(true);
+  }
+
+  closeAppInfoModal(): void {
+    this.showAppInfoModal.set(false);
   }
 }
