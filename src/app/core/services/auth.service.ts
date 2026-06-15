@@ -1,25 +1,61 @@
-import { Injectable } from '@angular/core';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable, signal } from '@angular/core';
+import { Observable, from } from 'rxjs';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  User,
+} from 'firebase/auth';
+import { firebaseAuth } from '../firebase/firebase.app';
 
-const AUTH_KEY = 'isAuthenticated';
+export interface AuthUser {
+  uid: string;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  emailVerified: boolean;
+  providerId: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  login(): Observable<boolean> {
-    return timer(2000).pipe(
-      map(() => {
-        sessionStorage.setItem(AUTH_KEY, 'true');
-        return true;
-      })
-    );
+  private readonly auth = firebaseAuth;
+
+  readonly user = signal<AuthUser | null>(null);
+
+  private resolveReady!: () => void;
+  /** Resolves once Firebase has emitted the initial auth state. */
+  readonly ready = new Promise<void>(resolve => (this.resolveReady = resolve));
+
+  constructor() {
+    onAuthStateChanged(this.auth, fbUser => {
+      this.user.set(fbUser ? this.mapUser(fbUser) : null);
+      this.resolveReady();
+    });
   }
 
-  logout(): void {
-    sessionStorage.removeItem(AUTH_KEY);
+  login(): Observable<void> {
+    const provider = new GoogleAuthProvider();
+    return from(signInWithPopup(this.auth, provider).then(() => void 0));
+  }
+
+  logout(): Observable<void> {
+    return from(signOut(this.auth));
   }
 
   isLoggedIn(): boolean {
-    return sessionStorage.getItem(AUTH_KEY) === 'true';
+    return this.user() !== null;
+  }
+
+  private mapUser(u: User): AuthUser {
+    return {
+      uid: u.uid,
+      displayName: u.displayName,
+      email: u.email,
+      photoURL: u.photoURL,
+      emailVerified: u.emailVerified,
+      providerId: u.providerData[0]?.providerId ?? 'firebase',
+    };
   }
 }
