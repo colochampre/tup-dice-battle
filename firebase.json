@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "dist/Dice-Battle/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      { "source": "**", "destination": "/index.html" }
+    ]
+  }
+}

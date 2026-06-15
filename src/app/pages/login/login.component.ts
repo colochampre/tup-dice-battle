@@ -1,32 +1,41 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { ButtonComponent } from '../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  loading = signal(false);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
-    }
+  loading = signal(false);
+  error = signal<string | null>(null);
+
+  constructor() {
+    this.authService.ready.then(() => {
+      if (this.authService.isLoggedIn()) {
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   onLogin(): void {
     this.loading.set(true);
-    this.authService.login().subscribe(() => {
-      this.loading.set(false);
-      this.router.navigate(['/']);
+    this.error.set(null);
+    this.authService.login().subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.error.set('No se pudo iniciar sesión. Intentá nuevamente.');
+      },
     });
   }
 }
