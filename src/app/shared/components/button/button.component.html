@@ -1,0 +1,12 @@
+<button
+  mat-flat-button
+  class="app-button"
+  [disabled]="loading()"
+  (click)="onClick()"
+>
+  @if (loading()) {
+    <app-spinner [diameter]="24" />
+  } @else {
+    {{ label() }}
+  }
+</button>

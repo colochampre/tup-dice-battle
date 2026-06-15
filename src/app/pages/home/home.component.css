@@ -1,0 +1,25 @@
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.home-content {
+  flex: 1;
+  padding: var(--spacing-md);
+  padding-bottom: calc(56px + var(--spacing-md));
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+@media (min-width: 1200px) {
+  .home-layout {
+    flex-direction: row;
+  }
+
+  .home-content {
+    margin-left: 16rem;
+    padding-bottom: var(--spacing-md);
+    max-width: calc(100vw - 16rem);
+  }
+}
