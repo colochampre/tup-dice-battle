@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -13,10 +13,10 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 export class LoginComponent {
   loading = signal(false);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }

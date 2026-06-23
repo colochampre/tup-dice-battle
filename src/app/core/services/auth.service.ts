@@ -11,7 +11,7 @@ export class AuthService {
       map(() => {
         sessionStorage.setItem(AUTH_KEY, 'true');
         return true;
-      })
+      }),
     );
   }
 

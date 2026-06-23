@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +6,7 @@ import { SpinnerComponent } from '../../shared/components/spinner/spinner.compon
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AppInfoComponent } from '../../shared/components/app-info/app-info.component';
 import { AuthService } from '../../core/services/auth.service';
+import { RandomUserResponse } from '../../core/models/player.model';
 
 interface UserProfile {
   firstName: string;
@@ -31,13 +32,15 @@ export class ConfigComponent implements OnInit {
   showLogoutModal = signal(false);
   showAppInfoModal = signal(false);
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.http
-      .get<any>('https://randomuser.me/api/?seed=dicebattle-user&results=1')
+      .get<RandomUserResponse>('https://randomuser.me/api/?seed=dicebattle-user&results=1')
       .subscribe({
-        next: res => {
+        next: (res) => {
           const r = res.results[0];
           this.user.set({
             firstName: r.name.first,

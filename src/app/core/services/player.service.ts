@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, map, tap } from 'rxjs';
 import { Player, RandomUserResponse } from '../models/player.model';
@@ -14,7 +14,7 @@ interface CachedData<T> {
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getPlayers(page: number, count: number): Observable<Player[]> {
     const cached = this.getFromCache(page);
@@ -27,8 +27,8 @@ export class PlayerService {
         params: { results: count.toString(), page: page.toString(), seed: 'dicebattle' },
       })
       .pipe(
-        map(response => response.results.map(this.mapToPlayer)),
-        tap(players => this.saveToCache(page, players))
+        map((response) => response.results.map(this.mapToPlayer)),
+        tap((players) => this.saveToCache(page, players)),
       );
   }
 

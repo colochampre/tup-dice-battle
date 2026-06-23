@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { PlayerService } from '../../core/services/player.service';
 import { Player } from '../../core/models/player.model';
 import { PlayerCardComponent } from '../../shared/components/player-card/player-card.component';
@@ -48,18 +48,21 @@ export class PlayersComponent implements OnInit {
   modalMessage = signal('');
   modalStyle = signal<ModalStyle>('info');
 
+  private playerService = inject(PlayerService);
+
   filteredPlayers = computed(() => {
     let result = this.players();
     const term = this.searchTerm().toLowerCase().trim();
 
     if (term) {
-      result = result.filter(p =>
-        p.firstName.toLowerCase().includes(term) ||
-        p.lastName.toLowerCase().includes(term) ||
-        p.email.toLowerCase().includes(term) ||
-        p.country.toLowerCase().includes(term) ||
-        p.state.toLowerCase().includes(term) ||
-        p.city.toLowerCase().includes(term)
+      result = result.filter(
+        (p) =>
+          p.firstName.toLowerCase().includes(term) ||
+          p.lastName.toLowerCase().includes(term) ||
+          p.email.toLowerCase().includes(term) ||
+          p.country.toLowerCase().includes(term) ||
+          p.state.toLowerCase().includes(term) ||
+          p.city.toLowerCase().includes(term),
       );
     }
 
@@ -97,8 +100,6 @@ export class PlayersComponent implements OnInit {
     return pages;
   });
 
-  constructor(private playerService: PlayerService) {}
-
   ngOnInit(): void {
     this.loadPage(1);
   }
@@ -106,12 +107,12 @@ export class PlayersComponent implements OnInit {
   loadPage(page: number): void {
     this.loading.set(true);
     this.playerService.getPlayers(page, PAGE_SIZE).subscribe({
-      next: players => {
+      next: (players) => {
         this.players.set(players);
         this.currentPage.set(page);
         this.loading.set(false);
       },
-      error: err => {
+      error: (err) => {
         console.error('Failed to load players:', err);
         this.loading.set(false);
         this.modalStyle.set('danger');
