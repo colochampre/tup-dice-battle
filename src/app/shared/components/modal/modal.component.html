@@ -9,7 +9,9 @@
     <p class="modal__message">{{ message() }}</p>
     @if (confirmLabel()) {
       <div class="modal__actions">
-        <button mat-button (click)="onClose()">{{ cancelLabel() || 'Cancelar' }}</button>
+        <button mat-button (click)="onClose()">
+          {{ cancelLabel() || ('MODAL.CANCEL' | translate) }}
+        </button>
         <button mat-flat-button color="warn" (click)="onConfirm()">{{ confirmLabel() }}</button>
       </div>
     }

@@ -7,6 +7,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AppInfoComponent } from '../../shared/components/app-info/app-info.component';
 import { AuthService } from '../../core/services/auth.service';
 import { RandomUserResponse } from '../../core/models/player.model';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 interface UserProfile {
   firstName: string;
@@ -22,7 +23,7 @@ interface UserProfile {
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [MatIconModule, SpinnerComponent, ModalComponent, AppInfoComponent],
+  imports: [MatIconModule, SpinnerComponent, ModalComponent, AppInfoComponent, TranslatePipe],
   templateUrl: './config.component.html',
   styleUrl: './config.component.css',
 })
@@ -35,6 +36,13 @@ export class ConfigComponent implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
+
+  protected readonly currentLang = this.translate.currentLang;
+
+  changeLang(lang: string): void {
+    this.translate.use(lang);
+  }
 
   ngOnInit(): void {
     this.http
