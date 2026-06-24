@@ -1,27 +1,32 @@
 <section class="players-container">
   <div class="players-toolbar">
     <mat-form-field class="players-search" appearance="outline">
-      <mat-label>Buscar jugadores</mat-label>
-      <input matInput [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Nombre, email, ciudad..." />
+      <mat-label>{{ 'PLAYERS.SEARCH_LABEL' | translate }}</mat-label>
+      <input
+        matInput
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        [placeholder]="'PLAYERS.SEARCH_PLACEHOLDER' | translate"
+      />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <div class="players-sort">
       <mat-form-field appearance="outline">
-        <mat-label>Ordenar por</mat-label>
+        <mat-label>{{ 'PLAYERS.SORT_BY' | translate }}</mat-label>
         <mat-select [ngModel]="sortField()" (ngModelChange)="sortField.set($event)">
-          <mat-option value="firstName">Nombre</mat-option>
-          <mat-option value="lastName">Apellido</mat-option>
-          <mat-option value="age">Edad</mat-option>
-          <mat-option value="score">Puntaje</mat-option>
+          <mat-option value="firstName">{{ 'PLAYERS.SORT_FIRST_NAME' | translate }}</mat-option>
+          <mat-option value="lastName">{{ 'PLAYERS.SORT_LAST_NAME' | translate }}</mat-option>
+          <mat-option value="age">{{ 'PLAYERS.SORT_AGE' | translate }}</mat-option>
+          <mat-option value="score">{{ 'PLAYERS.SORT_SCORE' | translate }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Dirección</mat-label>
+        <mat-label>{{ 'PLAYERS.DIRECTION' | translate }}</mat-label>
         <mat-select [ngModel]="sortDirection()" (ngModelChange)="sortDirection.set($event)">
-          <mat-option value="asc">Ascendente</mat-option>
-          <mat-option value="desc">Descendente</mat-option>
+          <mat-option value="asc">{{ 'PLAYERS.DIR_ASC' | translate }}</mat-option>
+          <mat-option value="desc">{{ 'PLAYERS.DIR_DESC' | translate }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -65,10 +70,6 @@
   }
 
   @if (showModal()) {
-    <app-modal
-      [variant]="modalStyle()"
-      [message]="modalMessage()"
-      (closed)="closeModal()"
-    />
+    <app-modal [variant]="modalStyle()" [message]="modalMessage()" (closed)="closeModal()" />
   }
 </section>

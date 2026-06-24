@@ -1,0 +1,34 @@
+{
+  "LOGIN": {
+    "BUTTON_LABEL": "Iniciar sesión"
+  },
+  "NAV": {
+    "PLAYERS": "Jugadores",
+    "CONFIG": "Configuración"
+  },
+  "PLAYERS": {
+    "SEARCH_LABEL": "Buscar jugadores",
+    "SEARCH_PLACEHOLDER": "Nombre, email, ciudad...",
+    "SORT_BY": "Ordenar por",
+    "SORT_FIRST_NAME": "Nombre",
+    "SORT_LAST_NAME": "Apellido",
+    "SORT_AGE": "Edad",
+    "SORT_SCORE": "Puntaje",
+    "DIRECTION": "Dirección",
+    "DIR_ASC": "Ascendente",
+    "DIR_DESC": "Descendente",
+    "ERROR_MESSAGE": "No se pudieron cargar los jugadores. Intenta nuevamente más tarde."
+  },
+  "CONFIG": {
+    "TITLE": "Perfil de usuario",
+    "ACTIONS": "Acciones",
+    "LOGOUT": "Cerrar sesión",
+    "ABOUT": "Acerca de",
+    "LOGOUT_MSG": "¿Estás seguro de que deseas cerrar sesión?",
+    "LANGUAGE_TITLE": "Idioma"
+  },
+  "MODAL": {
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Aceptar"
+  }
+}

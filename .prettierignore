@@ -1,0 +1,6 @@
+# Archivos y carpetas ignorados por Prettier
+dist/
+node_modules/
+.angular/
+coverage/
+package-lock.json

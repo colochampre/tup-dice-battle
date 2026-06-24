@@ -1,15 +1,17 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { PlayerService } from '../../core/services/player.service';
 import { Player } from '../../core/models/player.model';
-import { PlayerCardComponent } from '../../shared/components/player-card/player-card.component';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { PlayerCardComponent } from '../../shared/components/player-card/player-card.component';
 import { ModalComponent, ModalStyle } from '../../shared/components/modal/modal.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 const PAGE_SIZE = 24;
 const TOTAL_PAGES = 50;
@@ -21,15 +23,17 @@ export type SortDirection = 'asc' | 'desc';
   selector: 'app-players',
   standalone: true,
   imports: [
-    PlayerCardComponent,
-    SpinnerComponent,
-    ModalComponent,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
+    CommonModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    SpinnerComponent,
+    PlayerCardComponent,
+    ModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './players.component.html',
   styleUrl: './players.component.css',
@@ -48,18 +52,22 @@ export class PlayersComponent implements OnInit {
   modalMessage = signal('');
   modalStyle = signal<ModalStyle>('info');
 
+  private playerService = inject(PlayerService);
+  private translate = inject(TranslateService);
+
   filteredPlayers = computed(() => {
     let result = this.players();
     const term = this.searchTerm().toLowerCase().trim();
 
     if (term) {
-      result = result.filter(p =>
-        p.firstName.toLowerCase().includes(term) ||
-        p.lastName.toLowerCase().includes(term) ||
-        p.email.toLowerCase().includes(term) ||
-        p.country.toLowerCase().includes(term) ||
-        p.state.toLowerCase().includes(term) ||
-        p.city.toLowerCase().includes(term)
+      result = result.filter(
+        (p) =>
+          p.firstName.toLowerCase().includes(term) ||
+          p.lastName.toLowerCase().includes(term) ||
+          p.email.toLowerCase().includes(term) ||
+          p.country.toLowerCase().includes(term) ||
+          p.state.toLowerCase().includes(term) ||
+          p.city.toLowerCase().includes(term),
       );
     }
 
@@ -97,8 +105,6 @@ export class PlayersComponent implements OnInit {
     return pages;
   });
 
-  constructor(private playerService: PlayerService) {}
-
   ngOnInit(): void {
     this.loadPage(1);
   }
@@ -106,16 +112,16 @@ export class PlayersComponent implements OnInit {
   loadPage(page: number): void {
     this.loading.set(true);
     this.playerService.getPlayers(page, PAGE_SIZE).subscribe({
-      next: players => {
+      next: (players) => {
         this.players.set(players);
         this.currentPage.set(page);
         this.loading.set(false);
       },
-      error: err => {
+      error: (err) => {
         console.error('Failed to load players:', err);
         this.loading.set(false);
         this.modalStyle.set('danger');
-        this.modalMessage.set('No se pudieron cargar los jugadores. Intenta nuevamente más tarde.');
+        this.modalMessage.set(this.translate.instant('PLAYERS.ERROR_MESSAGE'));
         this.showModal.set(true);
       },
     });

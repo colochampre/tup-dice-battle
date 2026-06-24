@@ -1,13 +1,14 @@
 import { Component, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export type ModalStyle = 'info' | 'success' | 'danger';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, TranslatePipe],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css',
 })

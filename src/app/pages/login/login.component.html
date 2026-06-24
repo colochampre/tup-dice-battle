@@ -1,6 +1,10 @@
 <section class="login-wrapper">
   <div class="login-card">
     <img class="login-logo" src="logo.png" alt="Dice Battle logo" />
-    <app-button label="Iniciar sesión" [loading]="loading()" (clicked)="onLogin()" />
+    <app-button
+      [label]="'LOGIN.BUTTON_LABEL' | translate"
+      [loading]="loading()"
+      (clicked)="onLogin()"
+    />
   </div>
 </section>
